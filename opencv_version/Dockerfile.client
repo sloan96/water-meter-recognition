@@ -1,0 +1,15 @@
+FROM python:3.5
+MAINTAINER Wang LiangLin "wanglianglin@hotmail.com"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nano
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./client/socket_client.py ./socket_client.py
+COPY ./data ./data
+
+CMD [ "python", "./socket_client.py" ]

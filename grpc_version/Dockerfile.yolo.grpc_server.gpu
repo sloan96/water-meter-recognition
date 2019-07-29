@@ -1,0 +1,36 @@
+# Need CUDA10.0 //~
+# ARG TENSORFLOW_VERSION=latest-gpu-py3
+# ~// Need CUDA10.0
+ARG TENSORFLOW_VERSION=1.12.0-rc2-gpu-py3
+FROM tensorflow/tensorflow:${TENSORFLOW_VERSION} AS demo
+MAINTAINER Wang LiangLin "wanglianglin@hotmail.com"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nano \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    libfontconfig1 \
+    libglib2.0-dev
+
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# TODO: latest version did not work quite fine. 
+# Need more investigation. Change to use version of 3.4.5.20
+# RUN pip3 install opencv-python
+#RUN pip3 install opencv-python==3.4.5.20
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY client     /opt/water-meter/client
+COPY server     /opt/water-meter/server
+COPY data       /opt/water-meter/data
+
+WORKDIR /opt/water-meter/server
+RUN mv ./lib/libcublas.so.9.0 /usr/lib/x86_64-linux-gnu/
+RUN mv ./lib/libcudart.so.9.0 /usr/lib/x86_64-linux-gnu/
+RUN mv ./lib/libcudnn.so.7 /usr/lib/x86_64-linux-gnu/
+RUN mv ./lib/libcurand.so.9.0 /usr/lib/x86_64-linux-gnu/
+CMD ["python3", "main.py"]
+

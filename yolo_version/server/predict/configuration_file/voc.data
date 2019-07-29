@@ -1,0 +1,6 @@
+classes= 11
+train  = /home/lsr/workspace/darknet/train.txt
+valid  = /home/lsr/workspace/darknet/2007_test.txt
+names = ./configuration_file/voc.names
+backup = backup
+

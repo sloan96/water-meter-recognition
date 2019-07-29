@@ -1,0 +1,17 @@
+FROM python:3.5
+MAINTAINER Wang LiangLin "wanglianglin@hotmail.com"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nano
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./client/client_main.py ./client_main.py
+COPY ./client/data_pb2.py ./data_pb2.py
+COPY ./client/data_pb2_grpc.py ./data_pb2_grpc.py
+COPY ./data ./data
+
+CMD [ "python", "./client_main.py" ]
