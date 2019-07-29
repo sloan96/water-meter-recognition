@@ -3,8 +3,8 @@
 
 # 代码获取
 ```
-$ git clone https://github.com/wanglianglin/water-meter-demo.git
-```
+$ git clone https://github.com/sloan96/water-meter-recognition.git
+``` 
 
 # 代码提交
 特记：
